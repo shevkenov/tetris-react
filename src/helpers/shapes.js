@@ -1,4 +1,4 @@
-export const TETROMINOS = {
+export const shapes = {
     0: { shape: [[0]], color: '0, 0, 0' },
     I: {
       shape: [[0, 'I', 0, 0], [0, 'I', 0, 0], [0, 'I', 0, 0], [0, 'I', 0, 0]],
@@ -18,9 +18,7 @@ export const TETROMINOS = {
     Z: { shape: [['Z', 'Z', 0], [0, 'Z', 'Z'], [0, 0, 0]], color: '227, 78, 78' },
 };
 
-export const randomTetramino = () => {
-    const tetrominos = 'IJLOSTZ';
-    console.log(TETROMINOS[tetrominos[Math.floor(Math.random() * tetrominos.length)]]);
-    
-    return TETROMINOS[tetrominos[Math.floor(Math.random() * tetrominos.length)]]
+export const randomShape = () => {
+    const allShapes = 'IJLOSTZ';
+    return shapes[allShapes[Math.floor(Math.random() * allShapes.length)]]
 }
