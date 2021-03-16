@@ -4,8 +4,20 @@ import { createArena } from '../helpers/stage';
 
 const useStage = (player, resetPlayer) => {
     const [stage, setStage] = useState(createArena());
+    const [clearedRows, setClearedRows] = useState(0);
 
     useEffect(() => {
+        setClearedRows(0);
+        const clearRows = newStage => newStage.reduce((acc, row) => {
+            if(row.findIndex(cell => cell[0] === 0) === -1){
+                setClearedRows(prevRows => prevRows + 1);
+                acc.unshift(new Array(newStage[0].length).fill([0, "clear"]));
+                return acc;
+            }
+            acc.push(row)
+            return acc;
+        }, []);
+
         const updateState = prevState => {
             const newStage = prevState.map((row => {
                 return row.map((val => {
@@ -22,18 +34,19 @@ const useStage = (player, resetPlayer) => {
                 })
             });
 
-            return newStage;
-        }
+            if(player.collided){
+                resetPlayer();
+                return clearRows(newStage);
+            }
 
-        if(player.collided){
-            resetPlayer();
+            return newStage;
         }
 
         setStage(prevState => updateState(prevState));
     }, [player, resetPlayer])
 
 
-    return [stage, setStage];
+    return [stage, setStage, clearedRows];
 }
 
 export default useStage
